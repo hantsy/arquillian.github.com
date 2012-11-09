@@ -5,14 +5,20 @@ module Awestruct
 
       class Index
         include Guide
+        @@transformers_registered = false
         
         def initialize(path_prefix, num_changes = nil)
           @path_prefix = path_prefix
           @num_changes = num_changes
         end
 
+        # transform gets called twice in the process of loading the pipeline, so
+        # we use a class variable to detect this scenario and shortcircuit
         def transform(transformers)
-          transformers << WrapHeaderAndAssignHeadingIds.new
+          if not @@transformers_registered
+              transformers << WrapHeaderAndAssignHeadingIds.new
+              @@transformers_registered = true
+          end
         end
 
         def execute(site)
@@ -51,7 +57,7 @@ module Awestruct
                 chapter = OpenStruct.new
                 chapter.text = header_html.inner_html
                 # FIXME we need a better way to generate link ids
-                chapter.link_id = chapter.text.gsub(' ', '_').gsub('&#8217;', '_').gsub(/[\(\)\.!]/, '').downcase
+                chapter.link_id = chapter.text.gsub(' ', '_').gsub('&#8217;', '_').gsub(/[\(\)\.!\?]/, '').downcase
                 chapters << chapter
               end
 
@@ -122,7 +128,7 @@ module Awestruct
 
             # Wrap <div class="header"> around the h2 section
             # If you can do this more efficiently, feel free to improve it
-            guide_content = guide_root.search('h2').first.parent
+            guide_content = guide_root.search('.titlebar').first.parent
             indent = get_indent(get_depth(guide_content) + 2)
             in_header = true
             header_children = []

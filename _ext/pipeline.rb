@@ -14,6 +14,7 @@ require_relative 'interwiki'
 require_relative 'textile_plus'
 require_relative 'disqus_more'
 require_relative 'posts_helper'
+require_relative 'edit_page'
 require_relative 'asset_fingerprinter'
 #require_relative 'cache_evolver'
 #require_relative 'page_debug'
@@ -41,7 +42,7 @@ Awestruct::Extensions::Pipeline.new do
   extension Awestruct::Extensions::Repository::Collector.new(480465, 'sGiJRdK2Cq8Nz0TkTNAKyw', :observers => [github_collector])
   extension Awestruct::Extensions::Identities::Collect.new(github_collector)
   extension Awestruct::Extensions::Identities::Crawl.new(
-    Identities::GitHub::Crawler.new,
+    Identities::GitHub::Crawler.new(:auth_file => '.github-auth'),
     Identities::Gravatar::Crawler.new,
     Identities::Confluence::Crawler.new('https://docs.jboss.org/author', :auth_file => '.jboss-auth',
         :identity_search_keys => ['name', 'username'], :assign_username_to => 'jboss_username'),
@@ -82,6 +83,7 @@ Awestruct::Extensions::Pipeline.new do
   helper Awestruct::Extensions::Partial
   helper Awestruct::Extensions::Interwiki
   helper Awestruct::Extensions::GoogleAnalytics
+  helper Awestruct::Extensions::EditPage
   #helper Awestruct::Extensions::CacheEvolver
   helper Awestruct::Extensions::AssetFingerprinter
 end

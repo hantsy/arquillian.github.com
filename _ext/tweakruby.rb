@@ -14,6 +14,19 @@ class String
   def pluralize_unless_one(count, plural = nil)
     count == 1 ? self : (plural || self.pluralize)
   end
+
+  unless method_defined?(:force_encoding)
+    def force_encoding(encoding)
+      self
+    end
+
+    # nokogiri tries to use Encoding.find if String responds to force_encoding
+    class ::Encoding
+      def self.find(encoding)
+        encoding
+      end
+    end
+  end
 end
 
 require 'ostruct'

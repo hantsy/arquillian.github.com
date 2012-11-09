@@ -105,7 +105,8 @@ module Awestruct::Extensions::Repository::Visitors
       range_author_index = {}
       RepositoryHelpers.resolve_commits_between(repository, sha1, sha2).map {|c|
         # we'll use email as the key to finding their identity; the sha we just need temporarily
-        OpenStruct.new({:name => c.author.name, :email => c.author.email.downcase, :commits => 0, :sha => c.sha})
+        # clear out bogus characters from email and downcase
+        OpenStruct.new({:name => c.author.name, :email => c.author.email.downcase.gsub(/[^\w@\.\(\)]/, ''), :commits => 0, :sha => c.sha})
       }.each {|e|
         # This loop both grabs unique authors by email and counts their commits
         if !range_author_index.has_key? e.email
@@ -126,7 +127,7 @@ module Awestruct::Extensions::Repository::Visitors
             :repositories => []
           })
           site.git_author_index[e.email].commits += e.commits
-          site.git_author_index[e.email].repositories |= [repository.http_url]
+          site.git_author_index[e.email].repositories |= [repository.html_url]
         end
         e.delete_field('sha')
       }.sort {|a, b| a.name <=> b.name}
@@ -145,7 +146,7 @@ module Awestruct::Extensions::Repository::Visitors
     end
 
     def self.build_commit_url(repository, sha, ext)
-      repository.http_url + '/commit/' + sha + '.' + ext
+      repository.html_url + '/commit/' + sha + '.' + ext
     end
   end
 
@@ -203,13 +204,15 @@ module Awestruct::Extensions::Repository::Visitors
         :basepath => repository.path.eql?(repository.owner) ? repository.path : repository.path.sub(/^#{repository.owner}-/, ''),
         :key => repository.path.split('-').last, # this is how components are matched in jira
         :owner => repository.owner,
+        :html_url => repository.relative_path.empty? ? repository.html_url : "#{repository.html_url}/tree/#{repository.master_branch}/#{repository.relative_path.chomp('/')}",
+        :external => !repository.owner.eql?('arquillian'),
         :name => resolve_name(repository),
         :desc => repository.desc,
         :groupId => resolve_group_id(repository),
         :parent => true,
         :lead => resolve_current_lead(repository, site.component_leads),
-        # what about the AS7 adapters? are those ASL?
-        :license => 'Apache License 2.0',
+        # we should not assume the license for external modules (hardcoding is not ideal either)
+        :license => ['jbossas', 'jsfunit'].include?(repository.owner) ? 'LGPL-2.1' : 'Apache-2.0',
         :releases => [],
         :contributors => []
       })
@@ -229,7 +232,7 @@ module Awestruct::Extensions::Repository::Visitors
         release = OpenStruct.new({
           :version => t.name,
           :key => (c.key.eql?('core') ? '' : c.key + '_') + t.name, # jira release version key, should we add owner?
-          #:license => 'Apache License 2.0',
+          #:license => 'track?',
           :sha => sha,
           :html_url => RepositoryHelpers.build_commit_url(repository, sha, 'html'),
           :json_url => RepositoryHelpers.build_commit_url(repository, sha, 'json'),
