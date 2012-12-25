@@ -19,19 +19,20 @@ website_source:
   branch: develop
 speakers_team_id: 146647
 issue_tracker: https://issues.jboss.org/browse/ARQ
-api_docs: http://docs.jboss.org/arquillian/api/latest
-spi_docs: http://docs.jboss.org/arquillian/spi/latest
+api_spi_docs: http://docs.jboss.org/arquillian/aggregate/latest
 ref_guide: https://docs.jboss.org/author/display/ARQ/Reference+Guide
 project_space: http://community.jboss.org/en/arquillian
 faqs: http://community.jboss.org/en/arquillian/faq
 migration_guides: http://community.jboss.org/wiki/ArquillianMigrationGuides
 user_forum: http://community.jboss.org/en/arquillian?view=discussions
 dev_forum: http://community.jboss.org/en/arquillian/dev?view=discussions
-irc_transcripts: http://transcripts.jboss.org/channel/irc.freenode.org/%23jbosstesting/
+irc_channel: arquillian
+irc_transcripts: http://transcripts.jboss.org/channel/irc.freenode.org/%23arquillian/
 jboss_org_node_path: /arquillian_test
 licenses:
   "Apache-2.0": "ASL v2.0"
   "LGPL-2.1": "LGPL v2.1"
+team: [aslakknutsen, mojavelinux, graphitefriction, alrubinger, kpiwko, lfryc, bartoszmajsak, pmuir]
 haml:
   attr_wrapper: '"'
   escape_attrs: :once
