@@ -1,7 +1,13 @@
 %p The Arquillian team is proud to announce the <em>#{page.release.version}</em> release of the <em>#{page.component.name}</em> component!
 ~ content
-%h3 What is Arquillian?
-%p= site.definition
+
+- unless site.descriptions[page.component.key].nil?
+  %h3 What is #{page.component.name}?
+  %p= site.descriptions[page.component.key]
+- else
+  %h3 What is Arquillian?
+  %p= site.definition
+
 %h3 Release details
 %table.table.table-bordered.table-striped
   %tbody
@@ -9,7 +15,7 @@
       %th Component
       - if page.component.modules.size > 1
         %td= page.component.name
-      - else
+      - elsif page.component.modules.size == 1
         %td
           %a{:href=>page.component.modules.first.page.url}= page.component.name
     - if page.component.modules.size > 1
@@ -38,7 +44,14 @@
         %td
           %ul.unstyled
             - page.release.compiledeps.each do |dep|
-              %li= "#{dep.name} &#8211; #{dep.version}"
+              - release_notes = site.release_index["#{dep.name}_#{dep.version}"]
+              - unless release_notes.nil?
+                %li
+                  %a{:href=> release_notes.component.modules.first.page.url}=dep.name
+                  &#8211;
+                  %a{:href=>release_notes.url}=dep.version
+              - else
+                %li= "#{dep.name} &#8211; #{dep.version}"
 - unless page.release.published_artifacts.empty?
   %h3
     Published artifacts
@@ -51,12 +64,13 @@
         = a.artifactId
         - if a.packaging.eql? :jar
           %a.artifact{:href=>a.to_url, :target=>'_blank'} jar
+          %a.artifact{:href=>a.to_javadoc_url, :target=>'_blank'} javadoc
         %a.artifact{:href=>a.to_pom_url, :target=>'_blank'} pom
 - unless page.release_notes.nil?
   %h3
     Release notes and resolved issues
     %small= page.release_notes.resolved_issues.values.flatten.size
-  %p= page.release_notes.comment 
+  %p= page.release_notes.comment
   - page.release_notes.resolved_issues.each do |type, issues|
     - next if type.eql? 'Release'
     %dl
@@ -67,4 +81,4 @@
             %li= issue.gsub(/[\[\]]/, '')
 %p
   Thanks to the following list of contributors:
-  = (page.release.contributors.sort_by{|c| c.commits}.reverse.map{|c| identity = site.identities.lookup_by_contributor(c); identity.nil? ? c.name : identity.to_link} - [page.author]).join(', ')
+  = site.identities.unique_by_emails(page.release.contributors.sort_by{|c| c.commits}.reverse).map{|c| c.nil? ? c.name : c.to_link}.join(', ')

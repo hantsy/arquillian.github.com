@@ -8,7 +8,7 @@ description: Leer hoe je Arquillian toevoegd aan je project en hoe je je eerste 
 reference_rev: 52f8fbd2ff5f00fbbd70729a40f1d6ab124e600e
 ---
 [forge_home]http://jboss.org/forge
-[forge_download]https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&g=org.jboss.forge&a=forge-distribution&v=1.0.0.Final&e=zip
+[forge_download]https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&g=org.jboss.forge&a=forge-distribution&v=2.20.2.Final&e=zip
 [maven_home]http://maven.apache.org
 [maven_download]http://maven.apache.org/download.html
 [maven_search]http://search.maven.org
@@ -197,7 +197,7 @@ p. Dat is het! Forge loopt en nu is het tijd om een project te maken.
 
 Type het volgende commando in de "Forge shell" om een blanco project te creëren, dit is vergelijkbaar met een Maven Archetype zoals hier boven beschreven:
 
-bc(command). $ new-project --named arquillian-tutorial --topLevelPackage org.arquillian.example
+bc(command). $ project-new --named arquillian-tutorial --topLevelPackage org.arquillian.example
 
 p. Dit commando genereerd een Maven gebaseerd Java project in een nieuwe map genaamd @arquillian-tutorial@ in de huidige map
 
@@ -222,11 +222,11 @@ De standaard instelling van Forge is dat Java 1.6 gebruikt wordt de minimum nodi
 
 Wat we nu toe moeten voegen zijn de Java EE APIs, dat doet men door het volgende @project add-dependency@ commando uit te voeren:
 
-bc(command). $ project add-dependency org.jboss.spec:jboss-javaee-6.0:1.0.0.Final:pom:provided
+bc(command). $ project-add-dependencies org.jboss.spec:jboss-javaee-6.0:1.0.0.Final:pom:provided
 
 Ook dient JUnit minimum versie 4.8 toegevoegd te worden met scope test:
 
-bc(command). $ project add-dependency junit:junit:4.8.1:test
+bc(command). $ project-add-dependencies junit:junit:4.8.1:test
 
 Het resultaat van de pom dat Forge genereerd is het volgende:
 

@@ -6,8 +6,11 @@ _tmp/
 .project
 *.bak
 .rvmrc
+.ruby-version
+.ruby-gemset
 TODO
 .awestruct
 Guardfile
 Gemfile.lock
 .*-auth
+*~

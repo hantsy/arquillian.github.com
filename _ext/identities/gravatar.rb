@@ -12,8 +12,12 @@ module Identities
 
       def crawl(identity)
         hash = identity.gravatar_id
-        if hash.nil?
+        if hash.nil? or hash.empty?
           hash = Digest::MD5.new().update(identity.email.downcase).hexdigest 
+        end
+        if hash.empty? or hash.nil?
+          puts "No gravatar hash could be found for #{identity.github_id}"
+          return
         end
         url = API_URL_TEMPLATE % hash
         response = RestClient.get(url, :user_agent => "rest-client") do |rsp, req, res, &blk|
@@ -27,13 +31,13 @@ module Identities
         end
 
         data = JSON.parse response
-
         if data.empty?
           return
         end
 
         entry = data['entry'].first
-
+        # update with found hash. should be the same, but if we created it, we need to set identity
+        identity.gravatar_id = entry['hash']
         keys_to_gravatar = {
           'id' => 'id',
           'hash' => 'hash',
@@ -54,7 +58,7 @@ module Identities
         }.inject({}) {|h,(k,v)| h.store(keys_to_identity[k], v); h}), false)
 
         # TODO check if we need a merge here
-        if entry.has_key? 'name' and !entry['name'].to_s.strip.empty?
+        if entry.has_key? 'name' and !(entry['name'].is_a? Array) and !(name = entry['name'].to_s.strip).empty?
           if identity.names.nil?
             identity.names = OpenStruct.new(entry['name'])
           end

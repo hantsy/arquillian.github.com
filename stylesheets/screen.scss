@@ -336,6 +336,41 @@ blockquote {
   }
 }
 
+blockquote > .paragraph > p {
+  font-weight: normal;
+  color: $guide_author_name_color;
+  &:last-of-type {
+    margin-bottom: 1em;
+  }
+}
+
+#content {
+  .imageblock,
+  .videoblock {
+    margin-bottom: 1em;
+  }
+
+  .imageblock.right {
+    float: right;
+    margin-left: 1.5em;
+    margin-right: 4px;
+  }
+
+  .imageblock,
+  .videoblock {
+    font-weight: bold;
+  }
+
+  .imageblock > .title {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .videoblock {
+    margin-left: 4px;
+  }
+}
+
 // Sprite setup and generic activity
 
 // fixme could be cleaner, perhaps a mixin, fix a size
@@ -447,6 +482,7 @@ ul.team {
       padding-left: 80px;
     }
     h3 {
+      margin-top: .05em;
       margin-bottom: .1em;
       line-height: normal;
     }
@@ -818,6 +854,13 @@ table.data, .metadata table {
 
 .greenbar {
   @include background-image(linear-gradient(#5FBF5F + #333, #5FBF5F - #333));
+  color: $palette_white;
+  padding: 2px 3px;
+  @include border-radius(2px);
+}
+
+.redbar {
+  @include background-image(linear-gradient(#B00000 + #333, #B00000 - #333));
   color: $palette_white;
   padding: 2px 3px;
   @include border-radius(2px);

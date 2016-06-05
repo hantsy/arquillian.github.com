@@ -27,13 +27,29 @@
 #
 # bundle exec awestruct -s
 
-source :rubygems
+source 'https://rubygems.org'
 
-gem "awestruct", "0.4.6"
+gem "awestruct", "0.5.4.rc3"
+#gem "awestruct", :path => '../awestruct'
+#gem "awestruct", :git => 'git@github.com:awestruct/awestruct.git'
+gem 'bootstrap-sass', '< 3.0'
+gem 'asciidoctor'
+gem "puma"
 gem "rest-client", "1.6.7"
+gem "hpricot"
+gem "RedCloth"
+gem "redcarpet"
+gem "coffee-script"
+gem "haml", "4.0.1"
+gem "uglifier"
+gem "htmlcompressor"
+gem "compass", "0.12.7"
+gem "listen", "1.3.1"
 gem "git", "1.2.5"
 gem "ri_cal", "0.8.8"
 gem "tzinfo", "0.3.33"
-#gem "therubyracer", "0.10.1"
+gem "therubyracer", "0.10.1"
 gem "jruby-openssl", "0.7.7", :platforms => :jruby
-gem "rb-inotify", "0.8.8", :platforms => [:ruby, :jruby]
+gem "rb-inotify", :platforms => [:ruby, :jruby]
+gem "versionomy"
+gem 'rspec', '>= 2.9'

@@ -8,7 +8,7 @@ description: Apprenez comment ajouter Arquillian aux tests d'intégration de vot
 reference_rev: 52f8fbd2ff5f00fbbd70729a40f1d6ab124e600e
 ---
 [forge_home]http://jboss.org/forge
-[forge_download]https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&g=org.jboss.forge&a=forge-distribution&v=1.0.0.Final&e=zip
+[forge_download]https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&g=org.jboss.forge&a=forge-distribution&v=2.20.2.Final&e=zip
 [maven_home]http://maven.apache.org
 [maven_download]http://maven.apache.org/download.html
 [maven_search]http://search.maven.org
@@ -18,7 +18,7 @@ reference_rev: 52f8fbd2ff5f00fbbd70729a40f1d6ab124e600e
 [shrinkwrap_home]http://jboss.org/shrinkwrap
 [m2e_home]http://eclipse.org/m2e
 
-Ce guide a pour objectif de vous initier à Arquillian. Après la lecture de ce document nous espérons que vous serez capable de:
+Ce guide a pour objectif de vous initier à Arquillian. Après la lecture de ce document nous espérons que vous serez capable de :
 
 * Ajouter Arquillian et son environnement d'exécution à un projet Java basé sur Maven
 * Ecrire un cas de test (test case) avec Arquillian afin d'affirmer (assert) le comportement d'un bean CDI (Contexts and Dependency Injection)
@@ -170,7 +170,7 @@ Le processus d'installation de Forge est très simple. Le guide ci-dessous vous 
 
 # Ajoutez @$FORGE_HOME/bin@ dans votre path (Windows, Linux or Mac OSX)
 
-Dans les systèmes d'exploitation basé sur UNIX, ajouter Forge dans votre path revient à éditer $HOME/.bashrc ou $HOME/.profile; 
+Dans les systèmes d'exploitation basés sur UNIX, ajouter Forge dans votre path revient à éditer $HOME/.bashrc ou $HOME/.profile; 
 
 bc(command). $ export FORGE_HOME=$HOME/forge/
 $ export PATH=$PATH:$FORGE_HOME/bin
@@ -193,7 +193,7 @@ p. C'est tout ! Forge est à présent lancé. Il est maintenant temps de créer 
 
 Dans le shell Forge, exécutez les commandes suivantes pour créer un projet vide. La démarche est semblable à la création d'un projet via un Archetype Maven:
 
-bc(command). $ new-project --named arquillian-tutorial --topLevelPackage org.arquillian.example
+bc(command). $ project-new --named arquillian-tutorial --topLevelPackage org.arquillian.example
 
 p. Cette commande génère un projet Java basé sur Maven dans un nouveau sous répertoire @arquillian-tutorial@  du répertoire courant.
 
@@ -218,11 +218,11 @@ Par défaut, Forge configure votre projet pour utiliser Java 1.6, qui est la ver
 
 Nous avons maintenant besoin d'ajouter les APIs Java EE en utilisant la commande @project add-dependency@ comme suit:
 
-bc(command). $ project add-dependency org.jboss.spec:jboss-javaee-6.0:1.0.0.Final:pom:provided
+bc(command). $ project-add-dependencies org.jboss.spec:jboss-javaee-6.0:1.0.0.Final:pom:provided
 
 Vous aurez aussi besoin d'ajouter JUnit 4.8, la version minimale pour utiliser Arquillian. Cette dépendance doit, bien entendu, être en scope test.
 
-bc(command). $ project add-dependency junit:junit:4.8.1:test
+bc(command). $ project-add-dependencies junit:junit:4.8.1:test
 
 Forge a alors généré le pom.xml suivant:
 
@@ -589,7 +589,7 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.907 sec
 
 *Félicitations !* vous venez de remporter votre première *(greenbar)barre verte* avec Arquillian !
 
-h3. Regardons de plus prêt
+h3. Regardons de plus près
 
 Comme savoir si CDI a vraiment fonctionné ? Tout ce que nous pouvons dire, c'est qu'Arquillian a créé une nouvelle instance de la classe @Greeter@ et l'a injectée dans le test sans savoir si CDI a été sollicité. Pour prouver que CDI est là lançons une petite démonstration.
 

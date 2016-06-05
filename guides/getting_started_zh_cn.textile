@@ -8,7 +8,7 @@ description: 学习如何将 Arquillian 添加到你的项目的 test suite 中�
 reference_rev: 52f8fbd2ff5f00fbbd70729a40f1d6ab124e600e
 ---
 [forge_home]http://jboss.org/forge
-[forge_download]https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&g=org.jboss.forge&a=forge-distribution&v=1.0.0.Final&e=zip
+[forge_download]https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&g=org.jboss.forge&a=forge-distribution&v=2.20.2.Final&e=zip
 [maven_home]http://maven.apache.org
 [maven_download]http://maven.apache.org/download.html
 [maven_search]http://search.maven.org
@@ -192,7 +192,7 @@ p. 没错，Forge 已经运行起来了。下面开始创建项目。
 
 在 Forge shell 中，执行以下命令创建一个空项目，与前面使用 Maven Archetype 创建一个项目非常相似： 
 
-bc(command). $ new-project --named arquillian-tutorial --topLevelPackage org.arquillian.example
+bc(command). $ project-new --named arquillian-tutorial --topLevelPackage org.arquillian.example
 
 p. 这个命令会在当前目录中生成一个基于 Maven 的 Java 项目，文件夹名为 @arquillian-tutorial@ 。
 
@@ -217,11 +217,11 @@ bc(command). [arquillian-tutorial] arquillian-tutorial $
 
 现在要做是添加 Java EE API 。这可以通过 @project add-dependency@ 命令来完成：
 
-bc(command). $ project add-dependency org.jboss.spec:jboss-javaee-6.0:1.0.0.Final:pom:provided
+bc(command). $ project-add-dependencies org.jboss.spec:jboss-javaee-6.0:1.0.0.Final:pom:provided
 
 你还需要添加 JUnit 4.8，也是 Arquillian 要求的最低 JUnit 版本，添加为 test-scoped dependency：
 
-bc(command). $ project add-dependency junit:junit:4.8.1:test
+bc(command). $ project-add-dependencies junit:junit:4.8.1:test
 
 Forge 生成的最终 pom.xml 文件内容如下：
 

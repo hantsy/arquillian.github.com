@@ -23,6 +23,11 @@
       - page.javascripts.each do |javascript|
         %script{:src=>javascript}
     %link(rel='shortcut icon' href='/favicon.ico')
+    - if page.author
+      - page_author = site.identities.lookup(page.author)
+      - if !page_author.nil? and !page_author.google.nil?
+        %link(rel='author'){:href=>page_author.google.url}
+
   %body{:class=>page.body_class || nil}
     %header#banner.navbar.navbar-fixed-top(role='banner')
       .navbar-inner
@@ -49,7 +54,7 @@
               %li{:class=>('active' if page.url =~ /^\/community\//)}<
                 %a(href='/community/') Community
               %li{:class=>('active' if page.url =~ /^\/(code|modules)\//)}<
-                %a(href='/code/') Code
+                %a(href='/modules/') Modules
     ~ interwiki_urls(content)
     %footer
       .container
@@ -97,7 +102,7 @@
             %h4 Stay Informed
             %ul
               %li
-                %a(href='https://plus.google.com/100660127586085393031')<
+                %a(href='https://plus.google.com/100660127586085393031?rel=author')<
                   %img(src='/images/social/googleplus-16.png' alt='Google+' title='Follow Arquillian on Google+')
               %li
                 %a(href='https://twitter.com/#!/search/%23arquillian')<
@@ -109,7 +114,7 @@
                 %a(href='http://vimeo.com/channels/arquillian')<
                   %img(src='/images/social/vimeo-16.png' alt='Vimeo' title='Follow the Arquillian channel on Vimeo')
           :textile
-            This website is open source! If you want to improve it, "fork the project":http://github.com/arquillian/arquillian.github.com, hack on it, then send a pull request. You can also view the "visitor stats":http://www.seethestats.com/site/arquillian.org.
+            This website is open source! If you want to improve it, "fork the project":http://github.com/arquillian/arquillian.github.com, hack on it, then send a "pull request":https://help.github.com/articles/using-pull-requests. You can also view the "visitor stats":http://www.seethestats.com/site/arquillian.org.
 
             p(image). "!(branding)/images/jboss_redhat_branding.png(Red Hat, Inc.)!":http://jboss.org
 

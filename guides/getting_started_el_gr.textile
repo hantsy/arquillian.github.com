@@ -1,6 +1,6 @@
 ---
 layout: guide
-title: Getting Started
+title: Εισαγωγή
 authors: [mojavelinux]
 translators: [tolis-e]
 tags: [cdi, weld, maven, forge, eclipse]
@@ -9,7 +9,7 @@ guide_group: 1
 guide_order: 10
 ---
 [forge_home]http://jboss.org/forge
-[forge_download]https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&g=org.jboss.forge&a=forge-distribution&v=1.0.0.Final&e=zip
+[forge_download]https://repository.jboss.org/nexus/service/local/artifact/maven/redirect?r=releases&g=org.jboss.forge&a=forge-distribution&v=2.20.2.Final&e=zip
 [maven_home]http://maven.apache.org
 [maven_download]http://maven.apache.org/download.html
 [maven_search]http://search.maven.org
@@ -155,7 +155,7 @@ bc(prettify).. <!-- clip -->
 </dependencies>
 <!-- clip -->
 
-p(important). %Το @org.jboss.spec:jboss-javaee-6.0@ artifact αποτελείται μόνο από standard Java EE 6 APIs. Συνιστούμε να *μην χρησιμοποιήσεις* το Java EE API artifact με coordinates @javax:javaee-api@. Το τελευταίο artifact περιέχει classes με stripped method bodies, οι οποίες αν υπάρχουν στο classpath κατά το χρόνο εκτέλεσης (ακόμα και κατά την εκτέλεση των tests), θα έχουν ως αποτέλεσμα η εφαρμογή να κάνει throw errors. "Διάβασε το σχετικό κομμάτι στις Συχνές Ερωτήσεις":https://community.jboss.org/wiki/WhatsTheCauseOfThisExceptionJavalangClassFormatErrorAbsentCode for more details.%
+p(important). %Το @org.jboss.spec:jboss-javaee-6.0@ artifact αποτελείται μόνο από standard Java EE 6 APIs. Συνιστούμε να *μην χρησιμοποιήσεις* το Java EE API artifact με coordinates @javax:javaee-api@. Το τελευταίο artifact περιέχει classes με stripped method bodies, οι οποίες αν υπάρχουν στο classpath κατά το χρόνο εκτέλεσης (ακόμα και κατά την εκτέλεση των tests), θα έχουν ως αποτέλεσμα η εφαρμογή να κάνει throw errors. Για περισσότερες πληροφορίες "Διάβασε το σχετικό κομμάτι στις Συχνές Ερωτήσεις":https://community.jboss.org/wiki/WhatsTheCauseOfThisExceptionJavalangClassFormatErrorAbsentCode.%
 
 p. Ο σκελετός του project είναι έτοιμος! Μετακινήσου στην ενότητα "Άνοιξε το Project στο Eclipse":#open_the_project_in_eclipse, ώστε να γράψουμε λίγο κώδικα!
 
@@ -193,7 +193,7 @@ p. Αυτό ήταν! Το Forge είναι σε λειτουργία. Έφτα�
 
 Μέσα στο Forge shell, εκτέλεσε την ακόλουθη εντολή για να δημιουργήσεις ένα κενό project. Ο τρόπος αυτός μοιάζει με αυτόν που ακολουθήσαμε παραπάνω ώστε να δημιουργήσουμε ένα project χρησιμοποιώντας ένα Maven Archetype:
 
-bc(command). $ new-project --named arquillian-tutorial --topLevelPackage org.arquillian.example
+bc(command). $ project-new --named arquillian-tutorial --topLevelPackage org.arquillian.example
 
 p. Η εντολή αυτή παράγει ένα Maven-based Java project μέσα σε έναν νέο φάκελο με όνομα @arquillian-tutorial@ κάτω από το υπάρχον directory.
 
@@ -218,15 +218,15 @@ bc(command). [arquillian-tutorial] arquillian-tutorial $
 
 Στη συνέχεια θα προσθέσουμε τα Java EE APIs.  Αυτό γίνεται με τη χρήση της εντολής @project add-dependency@ παρακάτω:
 
-bc(command). $ project add-dependency org.jboss.spec:jboss-javaee-6.0:1.0.0.Final:provided:pom
+bc(command). $ project-add-dependencies org.jboss.spec:jboss-javaee-6.0:1.0.0.Final:provided:pom
 
 Επίσης θα χρειαστεί να προσθέσεις το JUnit 4.8, που είναι η ελάχιστη version του JUnit που απαιτείται για την χρήση του Arquillian σαν ένα test-scoped dependency:
 
-bc(command). $ project add-dependency junit:junit:4.8.1:test
+bc(command). $ project-add-dependencies junit:junit:4.8.1:test
 
 Το Forge προσθέτει το JBoss Community repository στο pom.xml file. Το repository αυτό δεν είναι απαραίτητο για την χρήση του Arquillian. (Ωστόσο, μπορείς να το κρατήσεις αν χρησιμοποιείς άλλα libraries τα οποία είναι διαθέσιμα μόνο μέσω του JBoss Community repository). Στην περίπτωση που αποφασίσεις να αφαιρέσεις το repository, αυτό γίνεται με την παρακάτω απλή Forge εντολή:
 
-bc(command). $ project remove-repository http://repository.jboss.org/nexus/content/groups/public 
+bc(command). $ project-remove-repository --url http://repository.jboss.org/nexus/content/groups/public 
 
 Παρακάτω απεικονίζεται το pom.xml που δημιουργεί το Forge:
 
@@ -380,14 +380,14 @@ p. Το Arquillian JUnit integration artifact προσθέτει το Arquillian
 
 p(info). %Για να χρησιμοποιήσεις το TestNG αντί για το JUnit testing framework, αντικατέστησε το Arquillian JUnit integration artifact με το Arquillian TestNG integration.%
 
-(Optional) Συνιστούμε το upgrade της version του Maven Surefire Plugin για λόγους που περιγράφονται στις "Συχνές Ερωτήσεις":https://community.jboss.org/wiki/WhatVersionOfSurefireShouldIUseToRunMyArquillianTestsInAMavenBuild. Μπορείς να ρυθμίσεις την version του Surefire Plugin προσθέτοντας το @<plugin>@ element μέσα στο @<plugins>@ element, ακριβώς κάτω από το Maven Compiler Plugin:
+(Προαιρετικό) Συνιστούμε το upgrade της version του Maven Surefire Plugin για λόγους που περιγράφονται στις "Συχνές Ερωτήσεις":https://community.jboss.org/wiki/WhatVersionOfSurefireShouldIUseToRunMyArquillianTestsInAMavenBuild. Μπορείς να ρυθμίσεις την version του Surefire Plugin προσθέτοντας το @<plugin>@ element μέσα στο @<plugins>@ element, ακριβώς κάτω από το Maven Compiler Plugin:
 
 div(filename). pom.xml
 
 bc(prettify).. <!-- clip -->
 <plugin>
     <artifactId>maven-surefire-plugin</artifactId>
-    <version>2.12</version>
+    <version>2.17</version>
 </plugin>
 <!-- clip -->
 
