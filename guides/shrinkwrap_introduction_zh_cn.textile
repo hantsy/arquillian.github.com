@@ -222,3 +222,4 @@ bc(prettify).. JavaArchive roundtrip = ShrinkWrap
 p. 注意我们是如何将 @ZipImporter@ 传递给 @ShrinkWrap.create@ 方法的，它也是一个 @Assignable@ ! 开始注意到这个把戏了吗?
 
 这里我们简短的介绍了如何 ShrinkWrap 操作归档文件内容。 我们希望你能够深入研究 API，它更直观，更一致，欢迎到我们社区。
+
